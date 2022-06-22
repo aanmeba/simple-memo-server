@@ -22,3 +22,27 @@ export const createMemo = async (req, res) => {
     res.status(409).json({ message: error.message });
   }
 };
+
+export const deleteMemo = async (req, res) => {
+  const id = req.params.id;
+
+  try {
+    await MemoData.findByIdAndRemove(id).exec();
+    res.send("Successfully deleted!");
+  } catch (error) {
+    res.status(409).json({ message: error.message });
+  }
+};
+
+export const editMemo = async (req, res) => {
+  const id = req.params.id;
+  const aMemo = req.body;
+  const updateMemo = MemoData(aMemo);
+
+  try {
+    await MemoData.findByIdAndUpdate(id, updateMemo).exec();
+    res.send("edited!");
+  } catch (error) {
+    res.status(409).json({ message: error.message });
+  }
+};
