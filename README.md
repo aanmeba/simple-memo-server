@@ -4,6 +4,10 @@ This is a simple memo app in web version inspired by [Blink](https://apps.apple.
 
 - Visit the [client side repo](https://github.com/aanmeba/simple-memo-client) for more details
 
+## Demo
+
+👉 Here's the deployed api: [back end](https://simple-memo-app-backend.herokuapp.com/memos)
+
 ## Tech Stack
 
 - Express for backend development
