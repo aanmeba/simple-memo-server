@@ -6,7 +6,7 @@ This is a simple memo app in web version inspired by [Blink](https://apps.apple.
 
 ## Demo
 
-👉 Here's the deployed api: [back end](https://simple-memo-app-backend.herokuapp.com/memos)
+👉 Here's the deployed api: [back end](https://simple-memo-server.onrender.com/memos)
 
 ## Tech Stack
 

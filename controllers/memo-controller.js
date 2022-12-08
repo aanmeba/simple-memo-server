@@ -1,45 +1,51 @@
-import MemoData from "../models/memo-model.js";
+import {
+  getAllMemos,
+  addNewMemo,
+  removeMemo,
+  updateMemo,
+} from "../utils/memo-utils.js";
 
-export const getMemos = async (req, res) => {
-  try {
-    const allMemos = await MemoData.find();
-    return res.status(200).json(allMemos);
-  } catch (error) {
-    return res.status(400).json({ message: error.message });
-  }
+// do not remove req
+export const getMemos = (req, res) => {
+  getAllMemos().exec((err, memos) => {
+    if (err) {
+      res.status(500);
+      return res.json({ error: err.message });
+    }
+    res.status(200);
+    res.send(memos);
+  });
 };
 
-export const createMemo = async (req, res) => {
-  const aMemo = req.body;
-  const newMemo = new MemoData(aMemo);
-
-  try {
-    await newMemo.save();
-    return res.status(201).json(newMemo);
-  } catch (error) {
-    return res.status(409).json({ message: error.message });
-  }
+export const createMemo = (req, res) => {
+  addNewMemo(req).save((err, memo) => {
+    if (err) {
+      res.status(500);
+      return res.json({ error: err.message });
+    }
+    res.status(201);
+    res.send(memo);
+  });
 };
 
-export const deleteMemo = async (req, res) => {
-  const id = req.params.id;
-
-  try {
-    await MemoData.findByIdAndRemove(id).exec();
-    return res.send("Successfully deleted!");
-  } catch (error) {
-    return res.status(409).json({ error: error.message });
-  }
+export const deleteMemo = (req, res) => {
+  removeMemo(req.params.id).exec((err) => {
+    if (err) {
+      res.status(404);
+      return res.json({ error: "Memo not found" });
+    }
+    res.status(200);
+    return res.json({ success: "Successfully deleted!" });
+  });
 };
 
-export const editMemo = async (req, res) => {
-  const id = req.params.id;
-  const aMemo = req.body;
-
-  try {
-    await MemoData.findByIdAndUpdate(id, aMemo, { new: true }).exec();
-    return res.send("edited!");
-  } catch (error) {
-    return res.status(500).json({ error: error.message });
-  }
+export const editMemo = (req, res) => {
+  updateMemo(req.params.id, req.body).exec((err, memo) => {
+    if (err) {
+      res.status(500);
+      return res.json({ error: err.message });
+    }
+    res.status(200);
+    res.send(memo);
+  });
 };
